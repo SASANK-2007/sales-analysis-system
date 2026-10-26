@@ -1,0 +1,11 @@
+sale_date,product_name,category,quantity,unit_price,region
+2026-01-05,Notebook,Stationery,20,45.00,South
+2026-01-11,Pen,Stationery,50,10.00,South
+2026-01-19,Water Bottle,Accessories,12,180.00,West
+2026-02-02,Notebook,Stationery,25,45.00,South
+2026-02-12,Backpack,Accessories,8,750.00,North
+2026-02-20,Pen,Stationery,70,10.00,East
+2026-03-03,Water Bottle,Accessories,18,180.00,West
+2026-03-15,Backpack,Accessories,11,750.00,North
+2026-03-22,Notebook,Stationery,30,45.00,South
+2026-03-23,Pen,Stationery,60,10.00,East

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Sales Data Analysis{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div><span class="brand-mark">S</span> <strong>SalesScope</strong></div>
+  <nav><a href="{{ url_for('dashboard') }}">Dashboard</a><a href="{{ url_for('download_report') }}">Validation report</a><a href="{{ url_for('export_sales') }}">Export sales CSV</a></nav>
+</header>
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <section class="messages">
+      {% for category, message in messages %}
+        <div class="alert {{ category }}">{{ message }}</div>
+      {% endfor %}
+      </section>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>SalesScope · Beginner Sales Data Analysis Project</footer>
+</body>
+</html>

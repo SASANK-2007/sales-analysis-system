@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | SalesScope{% endblock %}
+{% block content %}
+<section class="hero">
+  <div><p class="eyebrow">SALES INTELLIGENCE</p><h1>Sales Data Analysis</h1>
+  <p class="subtext">Import your records, validate the data, and discover sales trends.</p></div>
+  <div class="hero-badge">CSV → Insights</div>
+</section>
+
+<section class="panel upload-panel">
+  <div><h2>Import sales CSV</h2><p>Required columns: <code>{{ required_columns }}</code></p></div>
+  <form action="{{ url_for('upload_csv') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".csv" required>
+    <button type="submit">Upload and analyze</button>
+  </form>
+  <p class="hint">Invalid rows are skipped and listed in the validation report. Exact duplicate records are imported once.</p>
+  <a class="sample-link" href="{{ url_for('static', filename='sample_sales.csv') }}">Download sample CSV</a>
+</section>
+
+<section class="stats-grid">
+  <article class="stat-card"><span>Total revenue</span><strong>₹{{ "%.2f"|format(summary.revenue) }}</strong><small>Quantity × unit price</small></article>
+  <article class="stat-card"><span>Quantity sold</span><strong>{{ summary.quantity }}</strong><small>Total units</small></article>
+  <article class="stat-card"><span>Sales records</span><strong>{{ summary.transactions }}</strong><small>Accepted records</small></article>
+  <article class="stat-card"><span>Products</span><strong>{{ summary.products }}</strong><small>Unique product names</small></article>
+</section>
+
+<section class="charts-grid">
+  <article class="panel chart-card"><h2>Monthly revenue trend</h2><img src="{{ url_for('static', filename='charts/monthly_trend.png') }}" alt="Monthly revenue trend chart"></article>
+  <article class="panel chart-card"><h2>Top products by quantity</h2><img src="{{ url_for('static', filename='charts/product_ranking.png') }}" alt="Top product chart"></article>
+</section>
+
+<section class="panel">
+  <div class="section-heading"><div><h2>Top-selling products</h2><p>Ranked by quantity sold</p></div></div>
+  {% if products %}
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Product</th><th>Category</th><th>Quantity sold</th><th>Revenue</th></tr></thead>
+  <tbody>{% for p in products %}<tr><td>{{ loop.index }}</td><td>{{ p.product_name }}</td><td>{{ p.category }}</td><td>{{ p.quantity_sold }}</td><td>₹{{ "%.2f"|format(p.revenue) }}</td></tr>{% endfor %}</tbody></table></div>
+  {% else %}<p class="empty">No sales data yet. Upload the sample CSV to get started.</p>{% endif %}
+</section>
+
+<section class="panel">
+  <div class="section-heading"><div><h2>Monthly sales</h2><p>Revenue and units by calendar month</p></div></div>
+  {% if monthly %}
+  <div class="table-wrap"><table><thead><tr><th>Month</th><th>Revenue</th><th>Quantity sold</th></tr></thead>
+  <tbody>{% for m in monthly %}<tr><td>{{ m.month }}</td><td>₹{{ "%.2f"|format(m.revenue) }}</td><td>{{ m.quantity_sold }}</td></tr>{% endfor %}</tbody></table></div>
+  {% else %}<p class="empty">Monthly trends will appear after a successful import.</p>{% endif %}
+</section>
+{% endblock %}
